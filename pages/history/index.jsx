@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import DiaryCard from "@/components/DiaryCard";
 import axios from "axios";
 import Navigate from '@/components/Navigate';
+// import { MemoryContext } from '@/context/MemoryContext';
 
 function Page() {
   const [memories, setMemories] = useState([]);
@@ -15,6 +16,9 @@ function Page() {
     }
 };
 
+  // const values = useContext(MemoryContext);
+  // console.log(values)
+
   useEffect(() => {
     getAllMemories();
   }, []);
@@ -26,7 +30,7 @@ function Page() {
       <h1 className="text-3xl font-bold text-center">Diary History</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mx-2">
         {memories.map((memory) => (
-          <DiaryCard memory={memory} key={memory.id} />
+          <DiaryCard memory={memory} key={memory.id} memories={memories} setMemories={setMemories} />
         ))}
       </div>
     </div>

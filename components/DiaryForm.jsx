@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 function DiaryForm() {
@@ -6,16 +7,16 @@ function DiaryForm() {
     });
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
+        handleCleanFields();
         try {
-            e.preventDefault();
-            await axios.post("/api/memory", memory);
-            handeCleanFields();
+            await axios.post("/api/memory/", memory);
         } catch (error) {
             console.log(error)
         }
     };
 
-    const handeCleanFields = () => {
+    const handleCleanFields = () => {
         const emptymemory = Object.keys(memory).reduce((acc, key) => {
             acc[key] = "";
             return acc;
