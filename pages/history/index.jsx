@@ -29,7 +29,7 @@ function Page() {
         const btnRight = document.querySelector("#btn-right");  
         const totalPages = Math.ceil(memories.length / MEMORIES_PER_PAGE)
 
-        if (currentPage === totalPages) {
+        if (currentPage === totalPages || memories.length <= MEMORIES_PER_PAGE) {
             btnRight.style.display="none";
         } else {
             btnRight.style.display="block";
