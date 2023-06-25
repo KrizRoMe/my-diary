@@ -35,7 +35,7 @@ function DiaryForm() {
             <h1 className="text-3xl font-bold text-center">
                 My Personal Diary
             </h1>
-            <form className="text-center" onSubmit={handleSubmit}>
+            <form className="text-center mx-2" onSubmit={handleSubmit}>
                 <textarea
                     id=""
                     cols="100"

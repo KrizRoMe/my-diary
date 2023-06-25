@@ -29,13 +29,11 @@ function DiaryCard({ memory, memories, setMemories }) {
             <button className="flex" onClick={() => deleteMemory()}>
                 <span className="w-3 h-3 bg-red-500 rounded-full absolute top-4 right-4"></span>
             </button>
-            <a href="#">
-                <h5 className="mb-2 tracking-tight text-zinc-900 dark:text-white">
-                    <span className="text-3xl font-bold">{time}</span>
-                    <br />
-                    <span className="text-1xl">{date}</span>
-                </h5>
-            </a>
+            <h5 className="mb-2 tracking-tight text-zinc-900 dark:text-white">
+                <span className="text-3xl font-bold">{time}</span>
+                <br />
+                <span className="text-1xl">{date}</span>
+            </h5>
             <p className="mb-3 font-normal text-zinc-700 dark:text-zinc-400">
                 {getTruncateText(memory.content, MAX_LENGTH_CONTENT_CARD)}
             </p>

@@ -1,43 +1,66 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import DiaryCard from "@/components/DiaryCard";
 import axios from "axios";
 import Navigate from "@/components/Navigate";
-// import { MemoryContext } from '@/context/MemoryContext';
 
 function Page() {
     const [memories, setMemories] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [memoriesToShow, setMemoriesToShow] = useState([]);
+    const MEMORIES_PER_PAGE = 8;
 
     const getAllMemories = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/memory");
+            const res = await axios.get("/api/memory");
             setMemories(res.data);
         } catch (error) {
             setMemories([]);
         }
     };
 
-    const handleBtnLeftPagination = () => {
-        const btn_left = document.querySelector("#btn-left");
+    const calculateMemoriesToShow = () => {
+        const startIndex = (currentPage - 1) * MEMORIES_PER_PAGE;
+        const endIndex = startIndex + MEMORIES_PER_PAGE;
+        setMemoriesToShow(memories.slice(startIndex, endIndex));
+    }
 
-        btn_left.style.display = "block";
-        if (memories.length <= 8) {
-            const btn_left = document.querySelector("#btn-left");
-            btn_left.style.display = "none";
-            return;
+    const handleHiddenButtons = () => {
+        const btnLeft = document.querySelector("#btn-left");
+        const btnRight = document.querySelector("#btn-right");  
+        const totalPages = Math.ceil(memories.length / MEMORIES_PER_PAGE)
+
+        if (currentPage === totalPages) {
+            btnRight.style.display="none";
+        } else {
+            btnRight.style.display="block";
         }
+
+        if (currentPage == 1) {
+            btnLeft.style.display="none";
+        } else {
+            btnLeft.style.display="block";
+        }
+    }
+    
+
+    const handleBtnLeftPagination = () => {
+        setCurrentPage((prevPage) => prevPage - 1);
+    };
+
+    const handleBtnRightPagination = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
     };
 
     useEffect(() => {
-        handleBtnLeftPagination();
-    }, [memories]);
+        getAllMemories();
+    }, [])
 
-    // const values = useContext(MemoryContext);
-    // console.log(values)
 
     useEffect(() => {
-        getAllMemories();
-    }, []);
-
+        calculateMemoriesToShow();
+        handleHiddenButtons();
+    }, [memories, currentPage]);
+    
     return (
         <>
             <Navigate />
@@ -46,7 +69,7 @@ function Page() {
                     Diary History
                 </h1>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mx-2">
-                    {memories.slice(0, 8).map((memory) => (
+                    {memoriesToShow.map((memory) => (
                         <DiaryCard
                             memory={memory}
                             key={memory.id}
@@ -58,10 +81,10 @@ function Page() {
                 <div className="flex justify-center">
                     <ul className="flex items-center gap-3">
                         <li>
-                            <a
+                            <button
                                 id="btn-left"
-                                href="#"
                                 className="block px-3 py-2 text-sm font-medium text-zinc-500 bg-white border border-zinc-300  hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white rounded-full"
+                                onClick={() => handleBtnLeftPagination()}
                             >
                                 <svg
                                     aria-hidden="true"
@@ -71,26 +94,25 @@ function Page() {
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-                                        clip-rule="evenodd"
+                                        clipRule="evenodd"
                                     ></path>
                                 </svg>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a
-                                href="#"
+                            <button
                                 className="px-4 py-2 leading-tight text-zinc-500 bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white rounded-full"
                             >
-                                1
-                            </a>
+                                {currentPage}
+                            </button>
                         </li>
                         <li>
-                            <a
+                            <button
                                 id="btn-right"
-                                href="#"
                                 className="block px-3 py-2 text-sm font-medium text-zinc-500 bg-white border border-zinc-300  hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white rounded-full"
+                                onClick={() => handleBtnRightPagination()}
                             >
                                 <svg
                                     aria-hidden="true"
@@ -100,12 +122,12 @@ function Page() {
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                        clip-rule="evenodd"
+                                        clipRule="evenodd"
                                     ></path>
                                 </svg>
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </div>

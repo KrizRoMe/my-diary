@@ -2,13 +2,13 @@ import Link from "next/link";
 
 function Navigate() {
     return (
-        <div className="navigate py-5 px-8 mb-8 flex sm:justify-between bg-zinc-900">
+        <div className="navigate py-5 px-4 mb-8 flex justify-between items-center md:gap-0 md:px-8 bg-zinc-900">
             <div className="logo">
                 <Link href="/" className="hover:font-medium">
                     My Diary
                 </Link>
             </div>
-            <ul className="flex sm:justify-end gap-5">
+            <ul className="flex md:justify-end md:gap-5">
                 <li>
                     <Link
                         href="/"
