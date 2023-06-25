@@ -12,7 +12,7 @@ function DiaryForm() {
         try {
             await axios.post("/api/memory/", memory);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
 
@@ -31,7 +31,7 @@ function DiaryForm() {
         });
     };
     return (
-        <div className="grid place-content-center gap-5">
+        <div className="grid place-content-center gap-6">
             <h1 className="text-3xl font-bold text-center">
                 My Personal Diary
             </h1>
@@ -43,7 +43,8 @@ function DiaryForm() {
                     name="content"
                     className="p-2 w-full bg-zinc-900"
                     value={memory.content}
-                    onChange={handleChange}></textarea>
+                    onChange={handleChange}
+                ></textarea>
                 <button type="submit" className="btn-primary mt-3">
                     Guardar
                 </button>
@@ -52,4 +53,4 @@ function DiaryForm() {
     );
 }
 
-export default DiaryForm
+export default DiaryForm;
