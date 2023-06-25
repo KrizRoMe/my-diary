@@ -31,7 +31,7 @@ function DiaryForm() {
         });
     };
     return (
-        <div className="grid place-content-center gap-6">
+        <div className="grid place-content-center gap-6 mb-3">
             <h1 className="text-3xl font-bold text-center">
                 My Personal Diary
             </h1>
